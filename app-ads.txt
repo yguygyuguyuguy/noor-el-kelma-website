@@ -1,0 +1,3 @@
+# Noor El-Kelma app-ads.txt
+# Replace this comment with the exact publisher line from your AdMob account after creating it.
+# Required format: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
