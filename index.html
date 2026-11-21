@@ -34,7 +34,7 @@
     <nav class="navlinks" id="navlinks" aria-label="التنقل الرئيسي">
       <a href="#features">المميزات</a><a href="#experience">عن التجربة</a><a href="#install">طريقة التثبيت</a><a href="#faq">الأسئلة الشائعة</a>
     </nav>
-    <a class="nav-cta" href="https://github.com/yguygyuguyuguy/noor-al-kalima-updates/releases/download/v1.5.0/NoorAlKalima-user-1.5.0.apk">حمّل التطبيق <span aria-hidden="true">↓</span></a>
+    <a class="nav-cta" href="https://github.com/yguygyuguyuguy/noor-al-kalima-updates/releases/download/v1.5.0/NoorAlKalima-user-1.5.0.apk" data-latest-apk">حمّل التطبيق <span aria-hidden="true">↓</span></a>
     <button class="menu-btn" id="menuBtn" aria-label="فتح القائمة" aria-expanded="false">☰</button>
   </div>
 </header>
@@ -46,7 +46,7 @@
         <h1>كلمة تنير يومك،<br><span>وإيمان يرافقك.</span></h1>
         <p class="hero-copy">نور الكلمة يجمع الكتاب المقدس والأجبية وتفسير الكتاب المقدس وويدجت للآية اليومية، في تجربة عربية قبطية أرثوذكسية هادئة.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="https://github.com/yguygyuguyuguy/noor-al-kalima-updates/releases/download/v1.5.0/NoorAlKalima-user-1.5.0.apk"><span aria-hidden="true">⬇</span> تحميل التطبيق للأندرويد</a>
+          <a class="btn btn-primary" href="https://github.com/yguygyuguyuguy/noor-al-kalima-updates/releases/download/v1.5.0/NoorAlKalima-user-1.5.0.apk" data-latest-apk"><span aria-hidden="true">⬇</span> تحميل التطبيق للأندرويد</a>
           <a class="btn btn-secondary" href="#features">اكتشف المميزات</a>
         </div>
         <div class="fineprint">أحدث إصدار منشور: 1.5.0 · تحميل مباشر من مستودع الإصدارات الرسمي</div>
@@ -89,16 +89,16 @@
         <h2>اقرأ، صلِّ،<br>وافهم بعمق.</h2>
         <p>نور الكلمة يجمع أدوات أساسية للحياة الروحية في تطبيق واحد، مع واجهة عربية ودعم لاتجاه الكتابة من اليمين إلى اليسار.</p>
         <ul class="check-list"><li>قراءة الكتاب المقدس داخل التطبيق.</li><li>صلوات الأجبية متاحة محليًا.</li><li>قسم مخصص لتفسير الكتاب المقدس.</li><li>ويدجت تعرض آية على الشاشة الرئيسية.</li></ul>
-        <a class="btn btn-secondary" href="https://github.com/yguygyuguyuguy/noor-al-kalima-updates/releases/download/v1.5.0/NoorAlKalima-user-1.5.0.apk">حمّل التطبيق الآن</a>
+        <a class="btn btn-secondary" href="https://github.com/yguygyuguyuguy/noor-al-kalima-updates/releases/download/v1.5.0/NoorAlKalima-user-1.5.0.apk" data-latest-apk">حمّل التطبيق الآن</a>
       </div>
     </div>
   </section>
   <section class="download" id="download">
     <div class="wrap">
       <div class="download-panel">
-        <div><div class="kicker">ابدأ رحلتك مع نور الكلمة</div><h2>حمّل أحدث إصدار</h2><p>أحدث إصدار مستقر منشور حاليًا: 1.5.0، ويدعم Android 7.0 فأحدث.</p><div class="version">أحدث إصدار منشور على GitHub: 1.5.0</div></div>
+        <div><div class="kicker">ابدأ رحلتك مع نور الكلمة</div><h2>حمّل أحدث إصدار</h2><p>أحدث إصدار مستقر منشور حاليًا: 1.5.0، ويدعم Android 7.0 فأحدث.</p><div class="version">أحدث إصدار منشور على GitHub: <span data-release-version>1.5.0</span></div></div>
         <div class="download-actions">
-          <a class="btn btn-primary" href="https://github.com/yguygyuguyuguy/noor-al-kalima-updates/releases/download/v1.5.0/NoorAlKalima-user-1.5.0.apk">تحميل APK <span aria-hidden="true">↓</span></a>
+          <a class="btn btn-primary" href="https://github.com/yguygyuguyuguy/noor-al-kalima-updates/releases/download/v1.5.0/NoorAlKalima-user-1.5.0.apk" data-latest-apk">تحميل APK <span aria-hidden="true">↓</span></a>
           <a class="btn btn-secondary" href="https://github.com/yguygyuguyuguy/noor-al-kalima-updates/releases">كل الإصدارات</a>
         </div>
       </div>
@@ -147,6 +147,15 @@
   menuBtn.addEventListener('click',()=>{const opened=navlinks.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(opened));menuBtn.textContent=opened?'×':'☰';});
   navlinks.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{navlinks.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');menuBtn.textContent='☰';}));
   document.getElementById('year').textContent=new Date().getFullYear();
+  // Resolve the newest stable User APK from the official releases repository.
+  fetch('https://api.github.com/repos/yguygyuguyuguy/noor-al-kalima-updates/releases/latest',{headers:{Accept:'application/vnd.github+json'}})
+    .then(response=>{if(!response.ok)throw new Error('Release lookup failed');return response.json();})
+    .then(release=>{
+      const asset=(release.assets||[]).find(item=>/^NoorAlKalima-user-.*\.apk$/i.test(item.name));
+      if(!asset)throw new Error('User APK not found in latest release');
+      document.querySelectorAll('[data-latest-apk]').forEach(link=>link.href=asset.browser_download_url);
+      document.querySelectorAll('[data-release-version]').forEach(node=>node.textContent=(release.tag_name||'').replace(/^v/i,''));
+    }).catch(()=>{});
   document.querySelectorAll('.faq-list details').forEach(item=>item.addEventListener('toggle',()=>{if(item.open)document.querySelectorAll('.faq-list details').forEach(other=>{if(other!==item)other.open=false;});}));
 </script>
 </body>
